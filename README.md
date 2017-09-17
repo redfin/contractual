@@ -16,7 +16,7 @@ For instance, if you write a new class that overrides the `equals` method but fo
 <dependency>
     <groupId>com.redfin</groupId>
     <artifactId>contractual</artifactId>
-    <version>0.2.0-beta</version>
+    <version>1.0.0</version>
     <scope>test</scope>
 </dependency>
 ```

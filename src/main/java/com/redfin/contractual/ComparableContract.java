@@ -16,9 +16,9 @@
 
 package com.redfin.contractual;
 
-import com.redfin.insist.Insist;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static com.redfin.insist.Insist.*;
 
 /**
  * A test contract that should be implemented by the test classes for all
@@ -61,25 +61,28 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     default void testObjectThrowsExceptionWhenComparedToNull_ComparableContract() {
         // Get test instances and validate precondition
         T a = getInstance_Testable();
-        Insist.assumption("This test requires that 'a' be non null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
-        Assertions.assertThrows(NullPointerException.class,
-                                () -> a.compareTo(null));
+        //noinspection ConstantConditions
+        assume().withMessage("A comparable object should throw an exception when compared to a null object.")
+                .thatThrows(NullPointerException.class,
+                            () -> a.compareTo(null));
     }
 
     @Test
     default void testObjectReturnsZeroWhenComparedToSelf_ComparableContract() {
         // Get test instances and validate precondition
         T a = getInstance_Testable();
-        Insist.assumption("This test requires that 'a' be non null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A comparable object should return 0 when compared to itself")
-              .that(a.compareTo(a))
-              .isZero();
+        //noinspection EqualsWithItself
+        asserts().withMessage("A comparable object should return 0 when compared to itself")
+                 .that(a.compareTo(a))
+                 .isZero();
     }
 
     @Test
@@ -87,16 +90,16 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getComparableInstance_ComparableContract();
-        Insist.assumption("This test requires that 'a' be non null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non null")
-              .that(b)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non null")
+                .that(b)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A comparable object should return 0 when compared to an object which is comparable")
-              .that(a.compareTo(b))
-              .isZero();
+        asserts().withMessage("A comparable object should return 0 when compared to an object which is comparable")
+                 .that(a.compareTo(b))
+                 .isZero();
     }
 
     @Test
@@ -104,16 +107,16 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getSmallerInstance_ComparableContract();
-        Insist.assumption("This test requires that 'a' be non null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non null")
-              .that(b)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non null")
+                .that(b)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A comparable object should return a negative int when compared to an object which is greater")
-              .that(b.compareTo(a))
-              .isStrictlyNegative();
+        asserts().withMessage("A comparable object should return a negative int when compared to an object which is greater")
+                 .that(b.compareTo(a))
+                 .isStrictlyNegative();
     }
 
     @Test
@@ -121,15 +124,15 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getSmallerInstance_ComparableContract();
-        Insist.assumption("This test requires that 'a' be non null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non null")
-              .that(b)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non null")
+                .that(b)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A comparable object should return a positive int when compared to an object which is smaller")
-              .that(a.compareTo(b))
-              .isStrictlyPositive();
+        asserts().withMessage("A comparable object should return a positive int when compared to an object which is smaller")
+                 .that(a.compareTo(b))
+                 .isStrictlyPositive();
     }
 }

@@ -16,7 +16,6 @@
 
 package com.redfin.contractual;
 
-import com.redfin.insist.Insist;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +26,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.redfin.insist.Insist.*;
 
 /**
  * A test contract that should be implemented by all types that are intended
@@ -64,86 +65,86 @@ public interface NonInstantiableContract<T> {
     default void testClassIsMarkedAsFinal_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A non instantiable class should be marked as final")
-              .that(Modifier.isFinal(clazz.getModifiers()))
-              .isTrue();
+        asserts().withMessage("A non instantiable class should be marked as final")
+                 .that(Modifier.isFinal(clazz.getModifiers()))
+                 .isTrue();
     }
 
     @Test
     default void testClassHasOnlyOneConstructor_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A non instantiable class should only have 1 constructor")
-              .that(clazz.getDeclaredConstructors())
-              .hasLengthOf(1);
+        asserts().withMessage("A non instantiable class should only have 1 constructor")
+                 .that(clazz.getDeclaredConstructors())
+                 .hasLengthOf(1);
     }
 
     @Test
     default void testClassHasTheZeroArgumentConstructor_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A non instantiable class should have a zero argument constructor")
-              .that(getClassObject_NonInstantiableContract().getDeclaredConstructor())
-              .isNotNull();
+        asserts().withMessage("A non instantiable class should have a zero argument constructor")
+                 .that(getClassObject_NonInstantiableContract().getDeclaredConstructor())
+                 .isNotNull();
     }
 
     @Test
     default void testClassSingleConstructorIsPrivate_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A non instantiable class should have a private zero argument constructor")
-              .that(Modifier.isPrivate(getClassObject_NonInstantiableContract().getDeclaredConstructor().getModifiers()))
-              .isTrue();
+        asserts().withMessage("A non instantiable class should have a private zero argument constructor")
+                 .that(Modifier.isPrivate(getClassObject_NonInstantiableContract().getDeclaredConstructor().getModifiers()))
+                 .isTrue();
     }
 
     @Test
     default void testClassThrowsAssertionErrorIfConstructorIsCalled_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("A non instantiable class should throw an AssertionError if the private constructor is called via reflection")
-              .that(clazz.getDeclaredConstructor())
-              .satisfies(constructor -> {
-                  Throwable thrown = null;
-                  try {
-                      constructor.setAccessible(true);
-                      constructor.newInstance();
-                  } catch (Throwable t) {
-                      thrown = t;
-                  }
-                  return null != thrown &&
-                         thrown instanceof InvocationTargetException &&
-                         null != thrown.getCause() &&
-                         thrown.getCause() instanceof AssertionError;
-              });
+        asserts().withMessage("A non instantiable class should throw an AssertionError if the private constructor is called via reflection")
+                 .that(clazz.getDeclaredConstructor())
+                 .satisfies(constructor -> {
+                     Throwable thrown = null;
+                     try {
+                         constructor.setAccessible(true);
+                         constructor.newInstance();
+                     } catch (Throwable t) {
+                         thrown = t;
+                     }
+                     return null != thrown &&
+                            thrown instanceof InvocationTargetException &&
+                            null != thrown.getCause() &&
+                            thrown.getCause() instanceof AssertionError;
+                 });
     }
 
     @Test
     default void testClassOnlyHasStaticMembers_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<?> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
         List<Field> fields = new ArrayList<>();
         while (clazz != Object.class) {
@@ -152,18 +153,18 @@ public interface NonInstantiableContract<T> {
         }
         Assertions.assertAll("All fields of a non-instantiable class should be static",
                              fields.stream()
-                                   .map(field -> () -> Insist.assertion("field [" + field.getName() + "] should be static")
-                                                             .that(Modifier.isStatic(field.getModifiers()))
-                                                             .isTrue()));
+                                   .map(field -> () -> asserts().withMessage("field [" + field.getName() + "] should be static")
+                                                                .that(Modifier.isStatic(field.getModifiers()))
+                                                                .isTrue()));
     }
 
     @Test
     default void testClassOnlyHasStaticMethods_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<?> clazz = getClassObject_NonInstantiableContract();
-        Insist.assumption("This test requires that clazz be non-null")
-              .that(clazz)
-              .isNotNull();
+        assume().withMessage("This test requires that clazz be non-null")
+                .that(clazz)
+                .isNotNull();
         // Perform actual test
         List<Method> methods = new ArrayList<>();
         while (clazz != Object.class) {
@@ -172,8 +173,8 @@ public interface NonInstantiableContract<T> {
         }
         Assertions.assertAll("All methods of a non-instantiable class should be static",
                              methods.stream()
-                                    .map(method -> () -> Insist.assertion("method [" + method.getName() + "] should be static")
-                                                               .that(Modifier.isStatic(method.getModifiers()))
-                                                               .isTrue()));
+                                    .map(method -> () -> asserts().withMessage("method [" + method.getName() + "] should be static")
+                                                                  .that(Modifier.isStatic(method.getModifiers()))
+                                                                  .isTrue()));
     }
 }

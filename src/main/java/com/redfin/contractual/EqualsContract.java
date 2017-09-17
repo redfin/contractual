@@ -16,7 +16,6 @@
 
 package com.redfin.contractual;
 
-import com.redfin.insist.Insist;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,19 +23,21 @@ import java.lang.reflect.Modifier;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static com.redfin.insist.Insist.*;
+
 /**
  * A test contract that should be implemented by all instantiable types
  * that have overridden the {@link Object#equals(Object)} method.
  * This makes a best effort to verify that the type under test has not
  * violated the contract of object equality.
- * <p>
+ * <br>
  * Note that the equals method is not friendly with regards to inheritance.
  * This contract makes a best effort to ensure the equality contracts with
  * regards to other instances of the same class but cannot ensure it up or
  * down the inheritance hierarchy. An example that breaks the symmetrical
  * portion of the equality contract in a way unable to be tested by this test
  * contract:
- *
+ * <br>
  * <pre>
  *     <code>
  * public class A {
@@ -131,13 +132,13 @@ public interface EqualsContract<T> extends Testable<T> {
         // Get test instance
         T a = getInstance_Testable();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("An instantiable class that overrides equals should be marked as final")
-              .that(Modifier.isFinal(a.getClass().getModifiers()))
-              .isTrue();
+        asserts().withMessage("An instantiable class that overrides equals should be marked as final")
+                 .that(Modifier.isFinal(a.getClass().getModifiers()))
+                 .isTrue();
     }
 
     @Test
@@ -145,13 +146,13 @@ public interface EqualsContract<T> extends Testable<T> {
         // Get test instances
         T a = getInstance_Testable();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("An object should not be equal to null")
-              .that(a)
-              .isNotEqualTo(null);
+        asserts().withMessage("An object should not be equal to null")
+                 .that(a)
+                 .isNotEqualTo(null);
     }
 
     @Test
@@ -159,13 +160,13 @@ public interface EqualsContract<T> extends Testable<T> {
         // Get test instances
         T a = getInstance_Testable();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
-        Insist.assertion("Object equality should be reflexive such that 'a.equals(a)' should be true")
-              .that(a)
-              .isEqualTo(a);
+        asserts().withMessage("Object equality should be reflexive such that 'a.equals(a)' should be true")
+                 .that(a)
+                 .isEqualTo(a);
     }
 
     @Test
@@ -174,22 +175,22 @@ public interface EqualsContract<T> extends Testable<T> {
         T a = getInstance_Testable();
         T b = getEqualInstanceSupplier_EqualsContract().get();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' be equal to 'b'")
-              .that(a)
-              .isNotEqualTo(b);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' be equal to 'b'")
+                .that(a)
+                .isNotEqualTo(b);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be symmetrical so that if 'a.equals(b)' then it should also be that 'b.equals(a)'")
-              .that(b)
-              .isEqualTo(a);
+        asserts().withMessage("Object equality should be symmetrical so that if 'a.equals(b)' then it should also be that 'b.equals(a)'")
+                 .that(b)
+                 .isEqualTo(a);
     }
 
     @Test
@@ -198,22 +199,22 @@ public interface EqualsContract<T> extends Testable<T> {
         T a = getInstance_Testable();
         T b = getNonEqualInstance_EqualsContract();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' not be equal to 'b'")
-              .that(a)
-              .isNotEqualTo(b);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' not be equal to 'b'")
+                .that(a)
+                .isNotEqualTo(b);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be symmetrical so that if '!a.equals(b)' then it should also be that '!b.equals(a)'")
-              .that(a)
-              .isNotEqualTo(b);
+        asserts().withMessage("Object equality should be symmetrical so that if '!a.equals(b)' then it should also be that '!b.equals(a)'")
+                 .that(a)
+                 .isNotEqualTo(b);
     }
 
     @Test
@@ -224,34 +225,34 @@ public interface EqualsContract<T> extends Testable<T> {
         T b = supplier.get();
         T c = supplier.get();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'c' be non-null")
-              .that(c)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' be equal to 'b'")
-              .that(a)
-              .isEqualTo(b);
-        Insist.assumption("This test requires that 'b' be equal to 'c'")
-              .that(b)
-              .isEqualTo(c);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
-        Insist.assumption("This test requires that 'a' and 'c' be different instances")
-              .that(a == c)
-              .isFalse();
-        Insist.assumption("This test requires that 'b' and 'c' be different instances")
-              .that(b == c)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'c' be non-null")
+                .that(c)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' be equal to 'b'")
+                .that(a)
+                .isEqualTo(b);
+        assume().withMessage("This test requires that 'b' be equal to 'c'")
+                .that(b)
+                .isEqualTo(c);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
+        assume().withMessage("This test requires that 'a' and 'c' be different instances")
+                .that(a == c)
+                .isFalse();
+        assume().withMessage("This test requires that 'b' and 'c' be different instances")
+                .that(b == c)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be transitive so that if 'a == b' and 'b == c' then it should also be that 'a == c'")
-              .that(a)
-              .isEqualTo(c);
+        asserts().withMessage("Object equality should be transitive so that if 'a == b' and 'b == c' then it should also be that 'a == c'")
+                 .that(a)
+                 .isEqualTo(c);
     }
 
     @Test
@@ -261,34 +262,34 @@ public interface EqualsContract<T> extends Testable<T> {
         T b = getEqualInstanceSupplier_EqualsContract().get();
         T c = getNonEqualInstance_EqualsContract();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'c' be non-null")
-              .that(c)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' be equal to 'b'")
-              .that(a)
-              .isEqualTo(b);
-        Insist.assumption("This test requires that 'b' not be equal to 'c'")
-              .that(b)
-              .isNotEqualTo(c);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
-        Insist.assumption("This test requires that 'a' and 'c' be different instances")
-              .that(a == c)
-              .isFalse();
-        Insist.assumption("This test requires that 'b' and 'c' be different instances")
-              .that(b == c)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'c' be non-null")
+                .that(c)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' be equal to 'b'")
+                .that(a)
+                .isEqualTo(b);
+        assume().withMessage("This test requires that 'b' not be equal to 'c'")
+                .that(b)
+                .isNotEqualTo(c);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
+        assume().withMessage("This test requires that 'a' and 'c' be different instances")
+                .that(a == c)
+                .isFalse();
+        assume().withMessage("This test requires that 'b' and 'c' be different instances")
+                .that(b == c)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be transitive so that if 'a == b' and 'b != c' then it should also be that 'a != c'")
-              .that(a)
-              .isNotEqualTo(c);
+        asserts().withMessage("Object equality should be transitive so that if 'a == b' and 'b != c' then it should also be that 'a != c'")
+                 .that(a)
+                 .isNotEqualTo(c);
     }
 
     @Test
@@ -297,22 +298,22 @@ public interface EqualsContract<T> extends Testable<T> {
         T a = getInstance_Testable();
         T b = getEqualInstanceSupplier_EqualsContract().get();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' be equal to 'b'")
-              .that(a)
-              .isEqualTo(b);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' be equal to 'b'")
+                .that(a)
+                .isEqualTo(b);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be consistent so that if 'a.equals(b)' multiple calls without having mutated the objects should return true")
-              .that(a)
-              .isEqualTo(b);
+        asserts().withMessage("Object equality should be consistent so that if 'a.equals(b)' multiple calls without having mutated the objects should return true")
+                 .that(a)
+                 .isEqualTo(b);
     }
 
     @Test
@@ -321,22 +322,22 @@ public interface EqualsContract<T> extends Testable<T> {
         T a = getInstance_Testable();
         T b = getNonEqualInstance_EqualsContract();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' not be equal to 'b'")
-              .that(a)
-              .isNotEqualTo(b);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' not be equal to 'b'")
+                .that(a)
+                .isNotEqualTo(b);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
         // Perform actual test
-        Insist.assertion("Object equality should be consistent so that if '!a.equals(b)' multiple calls without having mutated the objects should return false")
-              .that(a)
-              .isNotEqualTo(b);
+        asserts().withMessage("Object equality should be consistent so that if '!a.equals(b)' multiple calls without having mutated the objects should return false")
+                 .that(a)
+                 .isNotEqualTo(b);
     }
 
     @Test
@@ -344,14 +345,14 @@ public interface EqualsContract<T> extends Testable<T> {
         // Get test instance
         T a = getInstance_Testable();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
         // Perform actual test
         int hashCode = a.hashCode();
-        Insist.assertion("An object should return the same hash code through repetitive calls to the hashCode method")
-              .that(hashCode)
-              .isEqualTo(a.hashCode());
+        asserts().withMessage("An object should return the same hash code through repetitive calls to the hashCode method")
+                 .that(hashCode)
+                 .isEqualTo(a.hashCode());
     }
 
     @Test
@@ -362,38 +363,38 @@ public interface EqualsContract<T> extends Testable<T> {
         T b = supplier.get();
         T c = supplier.get();
         // Verify test preconditions
-        Insist.assumption("This test requires that 'a' be non-null")
-              .that(a)
-              .isNotNull();
-        Insist.assumption("This test requires that 'b' be non-null")
-              .that(b)
-              .isNotNull();
-        Insist.assumption("This test requires that 'c' be non-null")
-              .that(c)
-              .isNotNull();
-        Insist.assumption("This test requires that 'a' be equal to 'b'")
-              .that(a)
-              .isEqualTo(b);
-        Insist.assumption("This test requires that 'b' be equal to 'c'")
-              .that(b)
-              .isEqualTo(c);
-        Insist.assumption("This test requires that 'a' be equal to 'c'")
-              .that(a)
-              .isEqualTo(c);
-        Insist.assumption("This test requires that 'a' and 'b' be different instances")
-              .that(a == b)
-              .isFalse();
-        Insist.assumption("This test requires that 'a' and 'c' be different instances")
-              .that(a == c)
-              .isFalse();
-        Insist.assumption("This test requires that 'b' and 'c' be different instances")
-              .that(b == c)
-              .isFalse();
+        assume().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        assume().withMessage("This test requires that 'b' be non-null")
+                .that(b)
+                .isNotNull();
+        assume().withMessage("This test requires that 'c' be non-null")
+                .that(c)
+                .isNotNull();
+        assume().withMessage("This test requires that 'a' be equal to 'b'")
+                .that(a)
+                .isEqualTo(b);
+        assume().withMessage("This test requires that 'b' be equal to 'c'")
+                .that(b)
+                .isEqualTo(c);
+        assume().withMessage("This test requires that 'a' be equal to 'c'")
+                .that(a)
+                .isEqualTo(c);
+        assume().withMessage("This test requires that 'a' and 'b' be different instances")
+                .that(a == b)
+                .isFalse();
+        assume().withMessage("This test requires that 'a' and 'c' be different instances")
+                .that(a == c)
+                .isFalse();
+        assume().withMessage("This test requires that 'b' and 'c' be different instances")
+                .that(b == c)
+                .isFalse();
         // Perform actual test
         int hashCode = a.hashCode();
         Assertions.assertAll("Equal objects should all return the same, consistent hash code.",
-                             Stream.of(() -> Insist.assertion().that(hashCode).isEqualTo(a.hashCode()),
-                                       () -> Insist.assertion().that(hashCode).isEqualTo(b.hashCode()),
-                                       () -> Insist.assertion().that(hashCode).isEqualTo(c.hashCode())));
+                             Stream.of(() -> asserts().that(hashCode).isEqualTo(a.hashCode()),
+                                       () -> asserts().that(hashCode).isEqualTo(b.hashCode()),
+                                       () -> asserts().that(hashCode).isEqualTo(c.hashCode())));
     }
 }
