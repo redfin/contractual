@@ -61,23 +61,23 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     default void testObjectThrowsExceptionWhenComparedToNull_ComparableContract() {
         // Get test instances and validate precondition
         T a = getInstance_Testable();
-        assume().withMessage("This test requires that 'a' be non null")
-                .that(a)
-                .isNotNull();
+        assumes().withMessage("This test requires that 'a' be non null")
+                 .that(a)
+                 .isNotNull();
         // Perform actual test
         //noinspection ConstantConditions
-        assume().withMessage("A comparable object should throw an exception when compared to a null object.")
-                .thatThrows(NullPointerException.class,
-                            () -> a.compareTo(null));
+        assumes().withMessage("A comparable object should throw an exception when compared to a null object.")
+                 .thatThrows(NullPointerException.class,
+                             () -> a.compareTo(null));
     }
 
     @Test
     default void testObjectReturnsZeroWhenComparedToSelf_ComparableContract() {
         // Get test instances and validate precondition
         T a = getInstance_Testable();
-        assume().withMessage("This test requires that 'a' be non null")
-                .that(a)
-                .isNotNull();
+        assumes().withMessage("This test requires that 'a' be non null")
+                 .that(a)
+                 .isNotNull();
         // Perform actual test
         //noinspection EqualsWithItself
         asserts().withMessage("A comparable object should return 0 when compared to itself")
@@ -90,12 +90,12 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getComparableInstance_ComparableContract();
-        assume().withMessage("This test requires that 'a' be non null")
-                .that(a)
-                .isNotNull();
-        assume().withMessage("This test requires that 'b' be non null")
-                .that(b)
-                .isNotNull();
+        assumes().withMessage("This test requires that 'a' be non null")
+                 .that(a)
+                 .isNotNull();
+        assumes().withMessage("This test requires that 'b' be non null")
+                 .that(b)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A comparable object should return 0 when compared to an object which is comparable")
                  .that(a.compareTo(b))
@@ -107,12 +107,12 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getSmallerInstance_ComparableContract();
-        assume().withMessage("This test requires that 'a' be non null")
-                .that(a)
-                .isNotNull();
-        assume().withMessage("This test requires that 'b' be non null")
-                .that(b)
-                .isNotNull();
+        assumes().withMessage("This test requires that 'a' be non null")
+                 .that(a)
+                 .isNotNull();
+        assumes().withMessage("This test requires that 'b' be non null")
+                 .that(b)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A comparable object should return a negative int when compared to an object which is greater")
                  .that(b.compareTo(a))
@@ -124,12 +124,12 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
         // Get test instances and validate precondition
         T a = getInstance_Testable();
         T b = getSmallerInstance_ComparableContract();
-        assume().withMessage("This test requires that 'a' be non null")
-                .that(a)
-                .isNotNull();
-        assume().withMessage("This test requires that 'b' be non null")
-                .that(b)
-                .isNotNull();
+        assumes().withMessage("This test requires that 'a' be non null")
+                 .that(a)
+                 .isNotNull();
+        assumes().withMessage("This test requires that 'b' be non null")
+                 .that(b)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A comparable object should return a positive int when compared to an object which is smaller")
                  .that(a.compareTo(b))

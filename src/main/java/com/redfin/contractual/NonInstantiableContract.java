@@ -65,9 +65,9 @@ public interface NonInstantiableContract<T> {
     default void testClassIsMarkedAsFinal_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A non instantiable class should be marked as final")
                  .that(Modifier.isFinal(clazz.getModifiers()))
@@ -78,9 +78,9 @@ public interface NonInstantiableContract<T> {
     default void testClassHasOnlyOneConstructor_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A non instantiable class should only have 1 constructor")
                  .that(clazz.getDeclaredConstructors())
@@ -91,9 +91,9 @@ public interface NonInstantiableContract<T> {
     default void testClassHasTheZeroArgumentConstructor_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A non instantiable class should have a zero argument constructor")
                  .that(getClassObject_NonInstantiableContract().getDeclaredConstructor())
@@ -104,9 +104,9 @@ public interface NonInstantiableContract<T> {
     default void testClassSingleConstructorIsPrivate_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A non instantiable class should have a private zero argument constructor")
                  .that(Modifier.isPrivate(getClassObject_NonInstantiableContract().getDeclaredConstructor().getModifiers()))
@@ -117,9 +117,9 @@ public interface NonInstantiableContract<T> {
     default void testClassThrowsAssertionErrorIfConstructorIsCalled_NonInstantiableContract() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         asserts().withMessage("A non instantiable class should throw an AssertionError if the private constructor is called via reflection")
                  .that(clazz.getDeclaredConstructor())
@@ -142,9 +142,9 @@ public interface NonInstantiableContract<T> {
     default void testClassOnlyHasStaticMembers_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<?> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         List<Field> fields = new ArrayList<>();
         while (clazz != Object.class) {
@@ -162,9 +162,9 @@ public interface NonInstantiableContract<T> {
     default void testClassOnlyHasStaticMethods_NonInstantiableContract() {
         // Get test class and validate precondition
         Class<?> clazz = getClassObject_NonInstantiableContract();
-        assume().withMessage("This test requires that clazz be non-null")
-                .that(clazz)
-                .isNotNull();
+        assumes().withMessage("This test requires that clazz be non-null")
+                 .that(clazz)
+                 .isNotNull();
         // Perform actual test
         List<Method> methods = new ArrayList<>();
         while (clazz != Object.class) {
