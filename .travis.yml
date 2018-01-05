@@ -12,7 +12,7 @@ addons:
 install:
   - mvn clean install -DskipTests
 script:
-  - mvn clean test
+  - mvn clean test-compile
 
 notifications:
   email: false
