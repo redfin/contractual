@@ -16,6 +16,10 @@
 
 package com.redfin.contractual;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 /**
  * A simple interface that defines a method for a class that can
  * create instances of itself to allow for testing. This is intended to
@@ -32,5 +36,16 @@ public interface Testable<T> {
      * calls to the method are not required to return the same, or even
      * equal, instances.
      */
-    T getInstance_Testable();
+    T getInstance();
+
+    @Test
+    @DisplayName("can be successfully instantiated")
+    default void testCanInstantiate() {
+        try {
+            Assertions.assertNotNull(getInstance(),
+                                     "Should have received a non-null instance from getInstance()");
+        } catch (Throwable thrown) {
+            Assertions.fail("Should be able to instantiate but caught throwable: " + thrown);
+        }
+    }
 }

@@ -16,7 +16,7 @@ For instance, if you write a new class that overrides the `equals` method but fo
 <dependency>
     <groupId>com.redfin</groupId>
     <artifactId>contractual</artifactId>
-    <version>1.7.0<version>
+    <version>2.0.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -64,17 +64,17 @@ public class FooTest implements EqualsContract<Foo> {
     private static final String NON_EQUAL = "world";
 
     @Override
-    public Foo getTestableInstance() {
+    public Foo getInstance() {
         return new Foo(EQUAL);
     }
 
     @Override
-    public Supplier<Foo> getEqualsContractEqualInstancesSupplier() {
+    public Supplier<Foo> getEqualInstanceSupplier() {
         return () -> new Foo(EQUAL);
     }
 
     @Override
-    public Foo getEqualsContractNonEqualInstance() {
+    public Foo getNonEqualInstance() {
         return new Foo(NON_EQUAL);
     }
 

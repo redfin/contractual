@@ -17,6 +17,7 @@
 package com.redfin.contractual;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Modifier;
@@ -87,7 +88,7 @@ public interface EqualsContract<T> extends Testable<T> {
     /**
      * Each call to the {@link Supplier#get} from the returned supplier should
      * return a new, non-null instance of type t that is equal according to the equals method
-     * for that type to the value returned from {@link Testable#getInstance_Testable()}.
+     * for that type to the value returned from {@link Testable#getInstance()}.
      * <p>
      * Therefore, if you start with:<br>
      * <pre>
@@ -115,22 +116,23 @@ public interface EqualsContract<T> extends Testable<T> {
      * @return a non-null supplier of non-null type T instances that are
      * separate instances but which are equal.
      */
-    Supplier<T> getEqualInstanceSupplier_EqualsContract();
+    Supplier<T> getEqualInstanceSupplier();
 
     /**
      * @return a new non-null instance of type T that is not equal to the value
-     * returned from {@link Testable#getInstance_Testable()}.
+     * returned from {@link Testable#getInstance()}.
      */
-    T getNonEqualInstance_EqualsContract();
+    T getNonEqualInstance();
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Test cases
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Test
-    default void testClassIsFinal_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by being a class that is marked as final")
+    default void testClassIsFinal() {
         // Get test instance
-        T a = getInstance_Testable();
+        T a = getInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -142,9 +144,10 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testAnObjectIsNotEqualToNull_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by not being equal to null")
+    default void testAnObjectIsNotEqualToNull() {
         // Get test instances
-        T a = getInstance_Testable();
+        T a = getInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -156,9 +159,10 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testReflexivityOfObject_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to reflexivity")
+    default void testReflexivityOfObject() {
         // Get test instances
-        T a = getInstance_Testable();
+        T a = getInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -170,10 +174,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testSymmetryOfEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to symmetry of equal objects")
+    default void testSymmetryOfEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        T b = getEqualInstanceSupplier_EqualsContract().get();
+        T a = getInstance();
+        T b = getEqualInstanceSupplier().get();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -194,10 +199,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testSymmetryOfNonEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to symmetry of non-equal objects")
+    default void testSymmetryOfNonEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        T b = getNonEqualInstance_EqualsContract();
+        T a = getInstance();
+        T b = getNonEqualInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -209,8 +215,8 @@ public interface EqualsContract<T> extends Testable<T> {
                  .that(a)
                  .isNotEqualTo(b);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
-                 .that(a == b)
-                 .isFalse();
+                 .that(a)
+                 .isNot(b);
         // Perform actual test
         asserts().withMessage("Object equality should be symmetrical so that if '!a.equals(b)' then it should also be that '!b.equals(a)'")
                  .that(a)
@@ -218,10 +224,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testTransitivityOfEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to transitivity of equal objects")
+    default void testTransitivityOfEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        Supplier<T> supplier = getEqualInstanceSupplier_EqualsContract();
+        T a = getInstance();
+        Supplier<T> supplier = getEqualInstanceSupplier();
         T b = supplier.get();
         T c = supplier.get();
         // Verify test preconditions
@@ -241,14 +248,14 @@ public interface EqualsContract<T> extends Testable<T> {
                  .that(b)
                  .isEqualTo(c);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
-                 .that(a == b)
-                 .isFalse();
+                 .that(a)
+                 .isNot(b);
         assumes().withMessage("This test requires that 'a' and 'c' be different instances")
-                 .that(a == c)
-                 .isFalse();
+                 .that(a)
+                 .isNot(c);
         assumes().withMessage("This test requires that 'b' and 'c' be different instances")
-                 .that(b == c)
-                 .isFalse();
+                 .that(b)
+                 .isNot(c);
         // Perform actual test
         asserts().withMessage("Object equality should be transitive so that if 'a == b' and 'b == c' then it should also be that 'a == c'")
                  .that(a)
@@ -256,11 +263,12 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testTransitivityOfNonEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to transitivity of non-equal objects")
+    default void testTransitivityOfNonEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        T b = getEqualInstanceSupplier_EqualsContract().get();
-        T c = getNonEqualInstance_EqualsContract();
+        T a = getInstance();
+        T b = getEqualInstanceSupplier().get();
+        T c = getNonEqualInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -293,10 +301,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testConsistencyOfEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to consistency of equal objects")
+    default void testConsistencyOfEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        T b = getEqualInstanceSupplier_EqualsContract().get();
+        T a = getInstance();
+        T b = getEqualInstanceSupplier().get();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -308,8 +317,8 @@ public interface EqualsContract<T> extends Testable<T> {
                  .that(a)
                  .isEqualTo(b);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
-                 .that(a == b)
-                 .isFalse();
+                 .that(a)
+                 .isNot(b);
         // Perform actual test
         asserts().withMessage("Object equality should be consistent so that if 'a.equals(b)' multiple calls without having mutated the objects should return true")
                  .that(a)
@@ -317,10 +326,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testConsistencyOfNonEqualObjects_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by adhering to consistency of non-equal objects")
+    default void testConsistencyOfNonEqualObjects() {
         // Get test instances
-        T a = getInstance_Testable();
-        T b = getNonEqualInstance_EqualsContract();
+        T a = getInstance();
+        T b = getNonEqualInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -332,8 +342,8 @@ public interface EqualsContract<T> extends Testable<T> {
                  .that(a)
                  .isNotEqualTo(b);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
-                 .that(a == b)
-                 .isFalse();
+                 .that(a)
+                 .isNot(b);
         // Perform actual test
         asserts().withMessage("Object equality should be consistent so that if '!a.equals(b)' multiple calls without having mutated the objects should return false")
                  .that(a)
@@ -341,9 +351,10 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testHashCodeConsistency_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by having a consistent hash code")
+    default void testHashCodeConsistency() {
         // Get test instance
-        T a = getInstance_Testable();
+        T a = getInstance();
         // Verify test preconditions
         assumes().withMessage("This test requires that 'a' be non-null")
                  .that(a)
@@ -356,10 +367,11 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    default void testEqualObjectsHaveEqualHashCodes_EqualsContract() {
+    @DisplayName("satisfies the EqualsContract by having equal objects return equal hash codes")
+    default void testEqualObjectsHaveEqualHashCodes() {
         // Get test instances
-        T a = getInstance_Testable();
-        Supplier<T> supplier = getEqualInstanceSupplier_EqualsContract();
+        T a = getInstance();
+        Supplier<T> supplier = getEqualInstanceSupplier();
         T b = supplier.get();
         T c = supplier.get();
         // Verify test preconditions
@@ -382,14 +394,14 @@ public interface EqualsContract<T> extends Testable<T> {
                  .that(a)
                  .isEqualTo(c);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
-                 .that(a == b)
-                 .isFalse();
+                 .that(a)
+                 .isNot(b);
         assumes().withMessage("This test requires that 'a' and 'c' be different instances")
-                 .that(a == c)
-                 .isFalse();
+                 .that(a)
+                 .isNot(c);
         assumes().withMessage("This test requires that 'b' and 'c' be different instances")
-                 .that(b == c)
-                 .isFalse();
+                 .that(b)
+                 .isNot(c);
         // Perform actual test
         int hashCode = a.hashCode();
         Assertions.assertAll("Equal objects should all return the same, consistent hash code.",

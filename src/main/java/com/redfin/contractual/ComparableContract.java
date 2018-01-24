@@ -16,6 +16,7 @@
 
 package com.redfin.contractual;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.redfin.insist.Insist.*;
@@ -41,26 +42,27 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
 
     /**
      * @return an instance of type T that is comparable to the instance
-     * returned from {@link Testable#getInstance_Testable()} but not the
+     * returned from {@link Testable#getInstance()} but not the
      * same instance.
      */
-    T getComparableInstance_ComparableContract();
+    T getComparableInstance();
 
     /**
      * @return an instance of type T that is "smaller", according to
      * the {@link Comparable#compareTo(Object)} method, than the instance
-     * returned from {@link Testable#getInstance_Testable()}.
+     * returned from {@link Testable#getInstance()}.
      */
-    T getSmallerInstance_ComparableContract();
+    T getSmallerInstance();
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Test cases
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Test
-    default void testObjectThrowsExceptionWhenComparedToNull_ComparableContract() {
+    @DisplayName("satisfies the ComparableContract by thrown an exception when compared to null")
+    default void testObjectThrowsExceptionWhenComparedToNull() {
         // Get test instances and validate precondition
-        T a = getInstance_Testable();
+        T a = getInstance();
         assumes().withMessage("This test requires that 'a' be non null")
                  .that(a)
                  .isNotNull();
@@ -72,9 +74,10 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    default void testObjectReturnsZeroWhenComparedToSelf_ComparableContract() {
+    @DisplayName("satisfies the ComparableContract by returning zero when compared to itself")
+    default void testObjectReturnsZeroWhenComparedToSelf() {
         // Get test instances and validate precondition
-        T a = getInstance_Testable();
+        T a = getInstance();
         assumes().withMessage("This test requires that 'a' be non null")
                  .that(a)
                  .isNotNull();
@@ -86,10 +89,11 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    default void testObjectReturnsZeroWhenComparedToComparableObject_ComparableContract() {
+    @DisplayName("satisfies the ComparableContract by returning zero when compared to a comparable object")
+    default void testObjectReturnsZeroWhenComparedToComparableObject() {
         // Get test instances and validate precondition
-        T a = getInstance_Testable();
-        T b = getComparableInstance_ComparableContract();
+        T a = getInstance();
+        T b = getComparableInstance();
         assumes().withMessage("This test requires that 'a' be non null")
                  .that(a)
                  .isNotNull();
@@ -103,10 +107,11 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    default void testObjectReturnsNegativeIntWhenComparedToGreaterObject_ComparableContract() {
+    @DisplayName("satisfies the ComparableContract by returning a negative value when compared to a greater object")
+    default void testObjectReturnsNegativeIntWhenComparedToGreaterObject() {
         // Get test instances and validate precondition
-        T a = getInstance_Testable();
-        T b = getSmallerInstance_ComparableContract();
+        T a = getInstance();
+        T b = getSmallerInstance();
         assumes().withMessage("This test requires that 'a' be non null")
                  .that(a)
                  .isNotNull();
@@ -120,10 +125,11 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    default void testObjectReturnsPositiveIntWhenComparedToSmallerObject_ComparableContract() {
+    @DisplayName("satisfies the ComparableContract by returning a positive value when compared to a smaller object")
+    default void testObjectReturnsPositiveIntWhenComparedToSmallerObject() {
         // Get test instances and validate precondition
-        T a = getInstance_Testable();
-        T b = getSmallerInstance_ComparableContract();
+        T a = getInstance();
+        T b = getSmallerInstance();
         assumes().withMessage("This test requires that 'a' be non null")
                  .that(a)
                  .isNotNull();
