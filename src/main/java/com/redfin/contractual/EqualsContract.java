@@ -34,48 +34,8 @@ import static com.redfin.insist.Insist.*;
  * <br>
  * Note that the equals method is not friendly with regards to inheritance.
  * This contract makes a best effort to ensure the equality contracts with
- * regards to other instances of the same class but cannot ensure it up or
- * down the inheritance hierarchy. An example that breaks the symmetrical
- * portion of the equality contract in a way unable to be tested by this test
- * contract:
- * <br>
- * <pre>
- *     <code>
- * public class A {
- *     private final int i;
- *
- *     public A(int i) {
- *         this.i = i;
- *     }
- *
- *     {@literal @}Override
- *     public boolean equals(Object obj) {
- *         return obj instanceof A {@literal &&} i == ((A) obj).i;
- *     }
- * }
- *
- * public class B extends A {
- *     private final int i;
- *
- *     public B(int i, int j) {
- *         super(i);
- *         this.j = j;
- *     }
- *
- *     {@literal @}Override
- *     public boolean equals(Object obj) {
- *         return obj instanceof B {@literal &&} super.equals(obj) {@literal &&} j == ((B) obj).j;
- *     }
- * }
- *
- * public void testSymmetricEquality() {
- *     A a = new A(1);
- *     B b = new B(1, 2);
- *     a.equals(b); // true
- *     b.equals(a); // false
- * }
- *     </code>
- * </pre>
+ * regards to other instances of the same class but cannot ensure it if
+ * superclasses break one or more of the equality contracts.
  *
  * @param <T> the class that is being tested.
  */
@@ -188,7 +148,7 @@ public interface EqualsContract<T> extends Testable<T> {
                  .isNotNull();
         assumes().withMessage("This test requires that 'a' be equal to 'b'")
                  .that(a)
-                 .isNotEqualTo(b);
+                 .isEqualTo(b);
         assumes().withMessage("This test requires that 'a' and 'b' be different instances")
                  .that(a == b)
                  .isFalse();
