@@ -63,7 +63,7 @@ public interface NonInstantiableContract<T> {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class marked as final")
+    @DisplayName("the class is final")
     default void testClassIsMarkedAsFinal() {
         // Get test class and validate precondition
         Class<T> clazz = getTestClass();
@@ -77,7 +77,7 @@ public interface NonInstantiableContract<T> {
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class with only one constructor")
+    @DisplayName("the class has only one constructor")
     default void testClassHasOnlyOneConstructor() {
         // Get test class and validate precondition
         Class<T> clazz = getTestClass();
@@ -91,7 +91,7 @@ public interface NonInstantiableContract<T> {
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class that has a declared constructor that takes in zero arguments")
+    @DisplayName("the class has a declared constructor that takes in zero arguments")
     default void testClassHasTheZeroArgumentConstructor() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getTestClass();
@@ -105,7 +105,7 @@ public interface NonInstantiableContract<T> {
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being whose no argument constructor is marked as private")
+    @DisplayName("the class has a no argument constructor that is marked as private")
     default void testClassSingleConstructorIsPrivate() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getTestClass();
@@ -119,7 +119,7 @@ public interface NonInstantiableContract<T> {
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class whose no argument constructor throws an AssertionError if called")
+    @DisplayName("the class has a no argument constructor that throws an AssertionError if called")
     default void testClassThrowsAssertionErrorIfConstructorIsCalled() throws NoSuchMethodException {
         // Get test class and validate precondition
         Class<T> clazz = getTestClass();
@@ -130,22 +130,21 @@ public interface NonInstantiableContract<T> {
         asserts().withMessage("A non instantiable class should throw an AssertionError if the private constructor is called via reflection")
                  .that(clazz.getDeclaredConstructor())
                  .satisfies(constructor -> {
-                     Throwable thrown = null;
+                     Exception exception = null;
                      try {
                          constructor.setAccessible(true);
                          constructor.newInstance();
-                     } catch (Throwable t) {
-                         thrown = t;
+                     } catch (Exception e) {
+                         exception = e;
                      }
-                     return null != thrown &&
-                            thrown instanceof InvocationTargetException &&
-                            null != thrown.getCause() &&
-                            thrown.getCause() instanceof AssertionError;
+                     return exception instanceof InvocationTargetException &&
+                            null != exception.getCause() &&
+                            exception.getCause() instanceof AssertionError;
                  });
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class that only has static fields")
+    @DisplayName("the class only has static fields")
     default void testClassOnlyHasStaticFields() {
         // Get test class and validate precondition
         Class<?> clazz = getTestClass();
@@ -166,7 +165,7 @@ public interface NonInstantiableContract<T> {
     }
 
     @Test
-    @DisplayName("satisfies the NonInstantiable contract by being a class that only has static methods")
+    @DisplayName("the class only has static methods")
     default void testClassOnlyHasStaticMethods() {
         // Get test class and validate precondition
         Class<?> clazz = getTestClass();

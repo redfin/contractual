@@ -89,7 +89,7 @@ public interface EqualsContract<T> extends Testable<T> {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Test
-    @DisplayName("satisfies the EqualsContract by being a class that is marked as final")
+    @DisplayName("the class is final")
     default void testClassIsFinal() {
         // Get test instance
         T a = getInstance();
@@ -104,7 +104,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by not being equal to null")
+    @DisplayName("it is not equal to null")
     default void testAnObjectIsNotEqualToNull() {
         // Get test instances
         T a = getInstance();
@@ -119,7 +119,24 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to reflexivity")
+    @DisplayName("it is not equal to a different class")
+    default void testAnObjectIsNotEqualToDifferentClass() {
+        // Get test instances
+        T a = getInstance();
+        // Verify test preconditions
+        assumes().withMessage("This test requires that 'a' be non-null")
+                .that(a)
+                .isNotNull();
+        // Perform actual test
+        Assertions.assertNotEquals(
+                new Object(),
+                a,
+                "An object should not be equal to a different object type"
+        );
+    }
+
+    @Test
+    @DisplayName("it adheres to reflexivity")
     default void testReflexivityOfObject() {
         // Get test instances
         T a = getInstance();
@@ -134,7 +151,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to symmetry of equal objects")
+    @DisplayName("it adheres to the symmetry of equal objects")
     default void testSymmetryOfEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -159,7 +176,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to symmetry of non-equal objects")
+    @DisplayName("it adheres to the symmetry of non-equal objects")
     default void testSymmetryOfNonEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -184,7 +201,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to transitivity of equal objects")
+    @DisplayName("it adheres to the transitivity of equal objects")
     default void testTransitivityOfEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -223,7 +240,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to transitivity of non-equal objects")
+    @DisplayName("it adheres to the transitivity of non-equal objects")
     default void testTransitivityOfNonEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -261,7 +278,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to consistency of equal objects")
+    @DisplayName("it adheres to the consistency of equal objects")
     default void testConsistencyOfEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -286,7 +303,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by adhering to consistency of non-equal objects")
+    @DisplayName("it adheres to the consistency of non-equal objects")
     default void testConsistencyOfNonEqualObjects() {
         // Get test instances
         T a = getInstance();
@@ -311,7 +328,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by having a consistent hash code")
+    @DisplayName("it generates a consistent hash code")
     default void testHashCodeConsistency() {
         // Get test instance
         T a = getInstance();
@@ -327,7 +344,7 @@ public interface EqualsContract<T> extends Testable<T> {
     }
 
     @Test
-    @DisplayName("satisfies the EqualsContract by having equal objects return equal hash codes")
+    @DisplayName("equal objects return equal hash codes")
     default void testEqualObjectsHaveEqualHashCodes() {
         // Get test instances
         T a = getInstance();

@@ -39,12 +39,12 @@ public interface Testable<T> {
     T getInstance();
 
     @Test
-    @DisplayName("can be successfully instantiated")
+    @DisplayName("it can be successfully instantiated")
     default void testCanInstantiate() {
         try {
             Assertions.assertNotNull(getInstance(),
                                      "Should have received a non-null instance from getInstance()");
-        } catch (Throwable thrown) {
+        } catch (Exception thrown) {
             Assertions.fail("Should be able to instantiate but caught throwable: " + thrown);
         }
     }

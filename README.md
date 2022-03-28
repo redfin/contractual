@@ -16,7 +16,7 @@ For instance, if you write a new class that overrides the `equals` method but fo
 <dependency>
     <groupId>com.redfin</groupId>
     <artifactId>contractual</artifactId>
-    <version>2.1.1</version>
+    <version>3.0.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -31,6 +31,7 @@ implementation would be:
 
 ```java
 public class Foo {
+
     private final String s;
 
     public Foo(String s) {
@@ -58,24 +59,33 @@ implement the interface, implement any abstract methods, and then it will inheri
 in the contract.
 
 ```java
-public class FooTest implements EqualsContract<Foo> {
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+
+@DisplayName("A Foo")
+class FooTest implements EqualsContract<Foo> {
 
     private static final String EQUAL = "hello";
     private static final String NON_EQUAL = "world";
 
-    @Override
-    public Foo getInstance() {
-        return new Foo(EQUAL);
-    }
+    @Nested
+    @DisplayName("satisfies the EqualsContract as")
+    class EqualityTest implements EqualsContract<Foo> {
 
-    @Override
-    public Supplier<Foo> getEqualInstanceSupplier() {
-        return () -> new Foo(EQUAL);
-    }
+        @Override
+        public Foo getInstance() {
+            return new Foo(EQUAL);
+        }
 
-    @Override
-    public Foo getNonEqualInstance() {
-        return new Foo(NON_EQUAL);
+        @Override
+        public Supplier<Foo> getEqualInstanceSupplier() {
+            return () -> new Foo(EQUAL);
+        }
+
+        @Override
+        public Foo getNonEqualInstance() {
+            return new Foo(NON_EQUAL);
+        }
     }
 
     // any unit tests specific to Foo

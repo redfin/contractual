@@ -59,7 +59,7 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Test
-    @DisplayName("satisfies the ComparableContract by thrown an exception when compared to null")
+    @DisplayName("it throws an exception when compared to null")
     default void testObjectThrowsExceptionWhenComparedToNull() {
         // Get test instances and validate precondition
         T a = getInstance();
@@ -74,7 +74,7 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    @DisplayName("satisfies the ComparableContract by returning zero when compared to itself")
+    @DisplayName("it returns a zero when compared to itself")
     default void testObjectReturnsZeroWhenComparedToSelf() {
         // Get test instances and validate precondition
         T a = getInstance();
@@ -89,7 +89,7 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    @DisplayName("satisfies the ComparableContract by returning zero when compared to a comparable object")
+    @DisplayName("it returns a zero when compared to a comparable object")
     default void testObjectReturnsZeroWhenComparedToComparableObject() {
         // Get test instances and validate precondition
         T a = getInstance();
@@ -107,7 +107,7 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    @DisplayName("satisfies the ComparableContract by returning a negative value when compared to a greater object")
+    @DisplayName("it returns a negative value when compared to a greater object")
     default void testObjectReturnsNegativeIntWhenComparedToGreaterObject() {
         // Get test instances and validate precondition
         T a = getInstance();
@@ -125,7 +125,7 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
     }
 
     @Test
-    @DisplayName("satisfies the ComparableContract by returning a positive value when compared to a smaller object")
+    @DisplayName("it returns a positive value when compared to a smaller object")
     default void testObjectReturnsPositiveIntWhenComparedToSmallerObject() {
         // Get test instances and validate precondition
         T a = getInstance();
